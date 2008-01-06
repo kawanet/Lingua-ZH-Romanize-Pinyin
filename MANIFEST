@@ -1,0 +1,16 @@
+Makefile.PL
+lib/Lingua/ZH/Romanize/Pinyin.pm
+lib/Lingua/ZH/Romanize/Cantonese.pm
+lib/Lingua/ZH/Romanize/DictZH.pm
+README
+MANIFEST
+cxterm/dict/big5/CTLauBig5.tit
+cxterm/dict/big5/PY.tit
+cxterm/dict/gb/CTLau.tit
+cxterm/dict/gb/PY.tit
+cxterm/Doc/README
+META.yml
+Changes
+make-dist.sh
+t/cantonese.t
+t/pinyin.t

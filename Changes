@@ -1,0 +1,13 @@
+# Lingua::ZH::Romanize::* modules Changes
+
+2006/06/13 (0.13)
+    - perltidied.
+    - tone contours added only in the case of Mandarin Pinyin and Traditional Chinese characters.
+      this demands on dictionaries: cxterm/dict/big5/PY.tit
+
+2006/04/04 (0.12)
+    - cxterm/dict/gb/CCDOSPY.tit removed from archive which is not used
+    - chars() method added
+
+2006/03/26 (0.11)
+    - first release
