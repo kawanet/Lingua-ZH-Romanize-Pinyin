@@ -43,23 +43,29 @@ DESCRIPTION
         $array[1][1]        # its romanized letters
 
 DICTIONARY
-    This module's Hanji to roman mapping table is based on PY.tit file which
-    is distributed with cxterm.
+    This module internally uses a mapping table from Hanji to roman which is
+    based on PY.tit file which is distributed with cxterm.
 
-MODULE DEPENDENCIES
+MODULE DEPENDENCY
     Storable module is required.
 
+UTF-8 FLAG
+    This treats utf8 flag transparently.
+
 SEE ALSO
-    Lingua::ZH::Romanize::Cantonese Lingua::JA::Romanize::Japanese
-    Lingua::KO::Romanize::Hangul
+    Lingua::ZH::Romanize::Cantonese for Cantonese
+
+    Lingua::JA::Romanize::Japanese for Japanese
+
+    Lingua::KO::Romanize::Hangul for Korean
 
     http://www.kawa.net/works/perl/romanize/romanize-e.html
 
-AUTHOR
-    Yusuke Kawasaki http://www.kawa.net/
+    http://linuga-romanize.googlecode.com/svn/trunk/Lingua-ZH-Romanize-Pinyi
+    n/
 
 COPYRIGHT
-    Copyright (c) 2003-2006 Yusuke Kawasaki. All rights reserved.
+    Copyright (c) 2003-2008 Yusuke Kawasaki. All rights reserved.
 
 LICENSE
     Any commercial use of the Software requires a license directly from the
