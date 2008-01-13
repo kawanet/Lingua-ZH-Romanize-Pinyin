@@ -30,9 +30,8 @@ Its pronounciation is different from Mandarin Standard's.
 =head1 DICTIONARY
 
 This module internally uses a mapping table from Hanji to roman
-which is based on both of CTLau.tit and CTLauBig5.tit.
-
-These are distributed with cxterm.
+which is based on both of C<CTLau.tit> and C<CTLauBig5.tit>.
+These are distributed with C<cxterm>.
 Original files were prepared by Fung Fung Lee.
 
 Sidney Lau's Cantonese transcription scheme as described in his book

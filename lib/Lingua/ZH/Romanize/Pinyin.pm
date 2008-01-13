@@ -51,7 +51,7 @@ which are pairs of a Hanji chacater and its romanized letters.
 =head1 DICTIONARY
 
 This module internally uses a mapping table from Hanji to roman
-which is based on PY.tit file which is distributed with cxterm.
+which is based on C<PY.tit> which is distributed with C<cxterm>.
 
 =head1 MODULE DEPENDENCY
 
