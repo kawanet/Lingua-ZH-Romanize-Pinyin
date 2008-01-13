@@ -50,28 +50,32 @@ which are pairs of a Hanji chacater and its romanized letters.
 
 =head1 DICTIONARY
 
-This module's Hanji to roman mapping table is based on
-PY.tit file which is distributed with cxterm.
+This module internally uses a mapping table from Hanji to roman
+which is based on PY.tit file which is distributed with cxterm.
 
-=head1 MODULE DEPENDENCIES
+=head1 MODULE DEPENDENCY
 
 L<Storable> module is required.
 
+=head1 UTF-8 FLAG
+
+This treats utf8 flag transparently.
+
 =head1 SEE ALSO
 
-L<Lingua::ZH::Romanize::Cantonese>
-L<Lingua::JA::Romanize::Japanese>
-L<Lingua::KO::Romanize::Hangul>
+L<Lingua::ZH::Romanize::Cantonese> for Cantonese
+
+L<Lingua::JA::Romanize::Japanese> for Japanese
+
+L<Lingua::KO::Romanize::Hangul> for Korean
 
 http://www.kawa.net/works/perl/romanize/romanize-e.html
 
-=head1 AUTHOR
-
-Yusuke Kawasaki http://www.kawa.net/
+http://linuga-romanize.googlecode.com/svn/trunk/Lingua-ZH-Romanize-Pinyin/
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003-2006 Yusuke Kawasaki. All rights reserved.
+Copyright (c) 2003-2008 Yusuke Kawasaki. All rights reserved.
 
 =head1 LICENSE
 
@@ -91,7 +95,8 @@ use strict;
 use Carp;
 use Storable;
 use vars qw( $VERSION );
-$VERSION = "0.13";
+$VERSION = "0.20";
+my $PERL581 = 1 if ( $] >= 5.008001 );
 
 sub new {
     my $package = shift;
@@ -103,6 +108,17 @@ sub new {
 }
 
 sub char {
+    my $self = shift;
+    return $self->_char(@_) unless $PERL581;
+    my $char = shift;
+    my $utf8 = utf8::is_utf8( $char );
+    utf8::encode( $char ) if $utf8;
+    $char = $self->_char( $char );
+    utf8::decode( $char ) if $utf8;
+    $char;
+}
+
+sub _char {
     my $self = shift;
     my $char = shift;
     return unless exists $self->{$char};
@@ -116,6 +132,22 @@ sub chars {
 }
 
 sub string {
+    my $self = shift;
+    return $self->_string(@_) unless $PERL581;
+    my $char = shift;
+    my $flag = utf8::is_utf8( $char );
+    utf8::encode( $char ) if $flag;
+    my @array = $self->_string( $char );
+    if ( $flag ) {
+        foreach my $pair ( @array ) {
+            utf8::decode( $pair->[0] ) if defined $pair->[0];
+            utf8::decode( $pair->[1] ) if defined $pair->[1];
+        }
+    }
+    @array;
+}
+
+sub _string {
     my $self  = shift;
     my $src   = shift;
     my $array = [];

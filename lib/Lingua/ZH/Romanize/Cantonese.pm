@@ -29,20 +29,38 @@ Its pronounciation is different from Mandarin Standard's.
 
 =head1 DICTIONARY
 
-This module's Hanji to roman mapping table is based on
-both of CTLau.tit and CTLauBig5.tit which are distributed with cxterm.
+This module internally uses a mapping table from Hanji to roman
+which is based on both of CTLau.tit and CTLauBig5.tit.
+
+These are distributed with cxterm.
 Original files were prepared by Fung Fung Lee.
 
 Sidney Lau's Cantonese transcription scheme as described in his book
 "Elementary Cantonese", The Government Printer, Hong Kong, 1972.
 
+=head1 MODULE DEPENDENCY
+
+L<Storable> module is required.
+
+=head1 UTF-8 FLAG
+
+This treats utf8 flag transparently.
+
 =head1 SEE ALSO
 
-L<Lingua::ZH::Romanize::Pinyin>
+L<Lingua::ZH::Romanize::Pinyin> for Standard Chinese
+
+L<Lingua::JA::Romanize::Japanese> for Japanese
+
+L<Lingua::KO::Romanize::Hangul> for Korean
+
+http://www.kawa.net/works/perl/romanize/romanize-e.html
+
+http://linuga-romanize.googlecode.com/svn/trunk/Lingua-ZH-Romanize-Pinyin/
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003-2006 Yusuke Kawasaki. All rights reserved.
+Copyright (c) 2003-2008 Yusuke Kawasaki. All rights reserved.
 
 =head1 LICENSE
 
@@ -59,10 +77,9 @@ behalf.
 
 package Lingua::ZH::Romanize::Cantonese;
 use strict;
-use vars qw( $VERSION @ISA );
-$VERSION = "0.13";
-@ISA     = qw( Lingua::ZH::Romanize::Pinyin );
-use Lingua::ZH::Romanize::Pinyin;
+use base qw( Lingua::ZH::Romanize::Pinyin );
+use vars qw( $VERSION );
+$VERSION = "0.20";
 
 #   every methods are provided by Lingua::ZH::Romanize::Pinyin!
 
