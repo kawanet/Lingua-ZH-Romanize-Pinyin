@@ -63,11 +63,11 @@ This treats utf8 flag transparently.
 
 =head1 SEE ALSO
 
-L<Lingua::ZH::Romanize::Cantonese> for Cantonese
+L<Lingua::ZH::Romanize::Cantonese> for romanization of Cantonese
 
-L<Lingua::JA::Romanize::Japanese> for Japanese
+L<Lingua::JA::Romanize::Japanese> for romanization of Japanese
 
-L<Lingua::KO::Romanize::Hangul> for Korean
+L<Lingua::KO::Romanize::Hangul> for romanization of Korean
 
 http://www.kawa.net/works/perl/romanize/romanize-e.html
 
@@ -95,7 +95,7 @@ use strict;
 use Carp;
 use Storable;
 use vars qw( $VERSION );
-$VERSION = "0.20";
+$VERSION = "0.22";
 my $PERL581 = 1 if ( $] >= 5.008001 );
 
 sub new {

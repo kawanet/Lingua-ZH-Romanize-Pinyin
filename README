@@ -53,11 +53,11 @@ UTF-8 FLAG
     This treats utf8 flag transparently.
 
 SEE ALSO
-    Lingua::ZH::Romanize::Cantonese for Cantonese
+    Lingua::ZH::Romanize::Cantonese for romanization of Cantonese
 
-    Lingua::JA::Romanize::Japanese for Japanese
+    Lingua::JA::Romanize::Japanese for romanization of Japanese
 
-    Lingua::KO::Romanize::Hangul for Korean
+    Lingua::KO::Romanize::Hangul for romanization of Korean
 
     http://www.kawa.net/works/perl/romanize/romanize-e.html
 

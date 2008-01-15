@@ -1,5 +1,9 @@
 # Lingua::ZH::Romanize::* modules Changes
 
+2008/01/15 (0.22)
+    - Makefile.PL updated to skip error on DictZH->update()
+      http://cpantesters.perl.org/show/Lingua-ZH-Romanize-Pinyin.html#Lingua-ZH-Romanize-Pinyin-0.20
+
 2008/01/13 (0.20)
     - Subversion on Google Code Project Hosting
       http://linuga-romanize.googlecode.com/svn/trunk/Lingua-ZH-Romanize-Pinyin/
