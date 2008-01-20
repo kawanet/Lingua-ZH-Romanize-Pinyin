@@ -95,7 +95,7 @@ use strict;
 use Carp;
 use Storable;
 use vars qw( $VERSION );
-$VERSION = "0.22";
+$VERSION = "0.23";
 my $PERL581 = 1 if ( $] >= 5.008001 );
 
 sub new {

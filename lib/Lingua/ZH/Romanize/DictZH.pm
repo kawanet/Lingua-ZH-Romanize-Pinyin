@@ -41,50 +41,53 @@ L<Lingua::ZH::Romanize::Pinyin>
 package Lingua::ZH::Romanize::DictZH;
 use strict;
 use vars qw( $VERSION );
-$VERSION = "0.13";
+$VERSION = "0.23";
 
-my $USE_ENCODE_PM = ( $] >= 5.008 );    # Perl 5.8.x or not
-
-#   $USE_ENCODE_PM = 1;                 # force to use Encode.pm
-#   $USE_ENCODE_PM = 0;                 # force to use Unicode::Map and Unicode::String
-#   my $SKIP_IF_EXISTS = 1;             # don't update when .store file exists
-my $SKIP_IF_EXISTS = 0;                 # override .store file when it exists
+my $PERL581 = 1 if ( $] >= 5.008001 );
 
 my $DICT_FILES = {
-    'Cantonese.store' => [qw(
+    'Cantonese' => [qw(
           cxterm/dict/big5/CTLauBig5.tit
           cxterm/dict/gb/CTLau.tit
     )],
-    'Pinyin.store' => [qw(
+    'Pinyin' => [qw(
           cxterm/dict/big5/PY.tit
           cxterm/dict/gb/PY.tit
     )],
 };
 
+sub target {
+    ( keys %$DICT_FILES );
+}
+
 sub update {
     my $package = shift;
     my $base    = shift;
+    print "Updater: ", __PACKAGE__, " (", $VERSION, ")\n";
+
     unless ( defined $base ) {
         $base = $INC{ join( '/', split( '::', (__PACKAGE__) . '.pm' ) ) };
         $base =~ s#/[^/]*$##;
     }
 
+    my @target = $package->target();
     my $update = 0;
-    foreach my $storename ( keys %$DICT_FILES ) {
+    foreach my $mode ( @target ) {
+        my $storename = $mode.'.store';
         my $storepath = $base . '/' . $storename;
         if ( -r $storepath ) {
             warn "Already-Exist: $storepath\n";
         }
         else {
+            print "Path: ", $storepath, "\n";
             $update++;
         }
     }
-    return if ( $SKIP_IF_EXISTS && !$update );    # no need to update
 
     warn "Loading-Module: Storable.pm\n";
     &require_storable();                          # required
 
-    if ($USE_ENCODE_PM) {
+    if ($PERL581) {
         warn "Loading-Module: Encode.pm\n";
         &require_encode();                        # Perl 5.8.x
     }
@@ -95,9 +98,11 @@ sub update {
         &require_unicode_string();                #
     }
 
-    foreach my $storename ( keys %$DICT_FILES ) {
+    foreach my $mode ( @target ) {
+        my $storename = $mode.'.store';
         my $hash = {};
-        foreach my $titpath ( @{ $DICT_FILES->{$storename} } ) {
+        my $titlist = $DICT_FILES->{$mode};
+        foreach my $titpath ( @$titlist ) {
             warn "Loading-Dictionary: $titpath\n";
             $hash = &read_tit_dict( $titpath, $hash );
         }
@@ -116,6 +121,8 @@ sub update {
         Storable::store( $hash, $storepath ) or die "$! - $storename\n";
     }
 
+    print "Done.\n";
+
     undef;
 }
 
@@ -123,7 +130,7 @@ sub read_tit_dict {
     my $titname = shift or return;
     my $hash   = shift || {};
     my $cmap   = {qw( GB GB2312 BIG5 BIG5 KS EUC-KR JIS EUC-JP )};
-    my $unistr = Unicode::String->new() unless $USE_ENCODE_PM;
+    my $unistr = Unicode::String->new() unless $PERL581;
 
     # find ENCODE: and wait until BEGINDICTIONARY
     open( TIT, $titname ) or die "$! - $titname\n";
@@ -134,7 +141,7 @@ sub read_tit_dict {
         last if /^BEGINDICTIONARY/;
     }
     warn "Dictionary-Encoding: $code\n" if $code;
-    my $unimap = Unicode::Map->new($code) unless $USE_ENCODE_PM;
+    my $unimap = Unicode::Map->new($code) unless $PERL581;
 
     while ( my $line = <TIT> ) {
         next if ( $line =~ /^#/ );
@@ -146,7 +153,7 @@ sub read_tit_dict {
 
         # convert encoding from GB/BIG5 to UTF-8
         if ($code) {
-            if ($USE_ENCODE_PM) {
+            if ($PERL581) {
                 Encode::from_to( $kanji, $code, 'UTF-8' );    # GB/BIG5 to UTF-8
             }
             else {
@@ -202,5 +209,15 @@ sub require_unicode_map {
     eval { require Unicode::Map; };
     die "Unicode::Map module is required.\n" if $@;
 }
+
+package Lingua::ZH::Romanize::DictZH::Pinyin;
+use strict;
+use base qw( Lingua::ZH::Romanize::DictZH );
+sub target { 'Pinyin' }
+
+package Lingua::ZH::Romanize::DictZH::Cantonese;
+use strict;
+use base qw( Lingua::ZH::Romanize::DictZH );
+sub target { 'Cantonese' }
 
 1;
